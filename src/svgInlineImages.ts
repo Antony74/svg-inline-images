@@ -5,12 +5,7 @@ export const svgElementInlineImages = async (
     svgElement: Element,
     fetchLite: FetchLite
 ): Promise<string> => {
-    if (!(svgElement instanceof SVGElement)) {
-        throw new Error(
-            `svgInlineImages was passed an element which is an SVGElement`
-        );
-    }
-    const clone = svgElement.cloneNode(true) as SVGElement; // https://github.com/microsoft/TypeScript/issues/283
+    const clone = svgElement.cloneNode(true) as Element; // https://github.com/microsoft/TypeScript/issues/283
 
     const images = Array.from(clone.querySelectorAll('image'));
 
