@@ -1,0 +1,42 @@
+{
+    "name": "svg-inline-images",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "scripts": {
+        "clean": "rimraf dist",
+        "build": "vite build",
+        "build-types": "tsc src/index.ts --declaration -emitDeclarationOnly --module commonjs --esModuleInterop true --allowSyntheticDefaultImports true --outDir dist",
+        "lint": "eslint src",
+        "prettier": "prettier --write .",
+        "start": "npm run clean && npm run build && npm run build-types"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Antony74/svg-inline-images.git"
+    },
+    "keywords": ["svg"],
+    "author": "Antony74",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Antony74/svg-inline-images/issues"
+    },
+    "homepage": "https://github.com/Antony74/svg-inline-images#readme",
+    "description": "Tool for making SVG files self-contained",
+    "dependencies": {
+        "mime-types": "^3.0.1"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.27.0",
+        "@types/mime-types": "^2.1.4",
+        "@types/node": "^22.15.19",
+        "eslint": "^9.27.0",
+        "globals": "^16.1.0",
+        "rimraf": "^6.0.1",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.32.1"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "singleQuote": true
+    }
+}
