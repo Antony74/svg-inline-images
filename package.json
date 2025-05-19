@@ -4,17 +4,18 @@
     "main": "dist/index.js",
     "scripts": {
         "clean": "rimraf dist",
-        "build": "vite build",
-        "build-types": "tsc src/index.ts --declaration -emitDeclarationOnly --module commonjs --esModuleInterop true --allowSyntheticDefaultImports true --outDir dist",
+        "build": "tsc",
         "lint": "eslint src",
         "prettier": "prettier --write .",
-        "start": "npm run clean && npm run build && npm run build-types"
+        "start": "npm run clean && npm run build"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Antony74/svg-inline-images.git"
     },
-    "keywords": ["svg"],
+    "keywords": [
+        "svg"
+    ],
     "author": "Antony74",
     "license": "MIT",
     "bugs": {
