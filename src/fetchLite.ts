@@ -18,6 +18,10 @@ export const fetchLiteFetch = async (
     path: string,
     fetchLite: FetchLite
 ): Promise<ArrayBufferLike> => {
+    if (path.startsWith('file://')) {
+        path = path.slice(7);
+    }
+
     const response = await fetchLite(path);
 
     if (hasArrayBufferMethod(response)) {
