@@ -13,9 +13,6 @@ exports.svgFileInlineImages = exports.svgTextInlineImages = exports.svgElementIn
 const fetchLite_1 = require("./fetchLite");
 const inlineImage_1 = require("./inlineImage");
 const svgElementInlineImages = (svgElement, fetchLite) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!(svgElement instanceof SVGElement)) {
-        throw new Error(`svgInlineImages was passed an element which is an SVGElement`);
-    }
     const clone = svgElement.cloneNode(true); // https://github.com/microsoft/TypeScript/issues/283
     const images = Array.from(clone.querySelectorAll('image'));
     for (const image of images) {
