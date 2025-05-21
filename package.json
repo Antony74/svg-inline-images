@@ -3,8 +3,9 @@
     "version": "1.0.0",
     "main": "dist/index.js",
     "scripts": {
-        "clean": "rimraf dist",
         "build": "tsc",
+        "clean": "rimraf dist",
+        "doc": "typedoc && node docs.js && rimraf docs",
         "lint": "eslint src",
         "prettier": "prettier --write .",
         "start": "npm run clean && npm run build"
@@ -30,9 +31,12 @@
         "@eslint/js": "^9.27.0",
         "@types/mime-types": "^2.1.4",
         "@types/node": "^22.15.19",
+        "concat-md": "^0.5.1",
         "eslint": "^9.27.0",
         "globals": "^16.1.0",
         "rimraf": "^6.0.1",
+        "typedoc": "^0.28.4",
+        "typedoc-plugin-markdown": "^4.6.3",
         "typescript": "^5.8.3",
         "typescript-eslint": "^8.32.1"
     },

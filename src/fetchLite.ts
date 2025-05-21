@@ -1,4 +1,4 @@
-type FetchLiteResponse =
+export type FetchLiteResponse =
     | ArrayBufferLike
     | { arrayBuffer: () => Promise<ArrayBufferLike> };
 
