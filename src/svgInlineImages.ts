@@ -46,11 +46,11 @@ export const svgElementInlineImages = async (
  * @example
  *
  * ```js
- * svgTextInlineImages('<svg></svg>', fetch, document);
+ * await svgTextInlineImages('<svg></svg>', fetch, document);
  * ```
  *
  * ```js
- * svgTextInlineImages('<svg></svg>', fs.promises.readFile, myJsDomDocument);
+ * await svgTextInlineImages('<svg></svg>', fs.promises.readFile, myJsDomDocument);
  * ```
  *
  */
@@ -82,11 +82,11 @@ export const svgTextInlineImages = async (
  * @example
  *
  * ```js
- * svgFileInlineImages('myFile.svg', fetch, document);
+ * await svgFileInlineImages('myFile.svg', fetch, document);
  * ```
  *
  * ```js
- * svgFileInlineImages('myFile.svg', fs.promises.readFile, myJsDomDocument);
+ * await svgFileInlineImages('myFile.svg', fs.promises.readFile, myJsDomDocument);
  * ```
  *
  */

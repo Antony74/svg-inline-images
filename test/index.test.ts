@@ -2,8 +2,13 @@ import fs from 'fs';
 
 import { JSDOM } from 'jsdom';
 import mockFs from 'mock-fs';
+import fetchMock from 'fetch-mock';
 
-import { svgFileInlineImages, svgTextInlineImages } from '../src';
+import {
+    svgElementInlineImages,
+    svgFileInlineImages,
+    svgTextInlineImages,
+} from '../src';
 
 const dom = new JSDOM();
 
@@ -31,6 +36,10 @@ const mocks = {
     'image.png': Buffer.from(testBase64, 'base64'),
 };
 
+fetchMock.config.allowRelativeUrls = true;
+fetchMock.route('/good.svg', svgTemplate(xlinkHrefImage + hrefImage));
+fetchMock.route('/image.png', Buffer.from(testBase64, 'base64'));
+
 describe('svgInlineImages', () => {
     beforeAll(() => {
         mockFs(mocks);
@@ -38,6 +47,22 @@ describe('svgInlineImages', () => {
 
     afterAll(() => {
         mockFs.restore();
+    });
+
+    it(`can inline images with fetch`, async () => {
+        const result = await svgFileInlineImages(
+            'good.svg',
+            fetchMock.fetchHandler,
+            dom.window.document
+        );
+        expect(result).toEqual(
+            svgTemplate(
+                [
+                    `<image xlink:href="${dataPrefix}${testBase64}"></image>`,
+                    `<image href="${dataPrefix}${testBase64}"></image>`,
+                ].join('')
+            )
+        );
     });
 
     it(`can inline images with fs.promises.readFile`, async () => {
@@ -77,5 +102,16 @@ describe('svgInlineImages', () => {
                 ].join('')
             )
         );
+    });
+
+    describe(`svgElementInlineImages`, () => {
+        it(`has a working example`, async () => {
+            const document = new JSDOM('<svg></svg>').window.document;
+            // example code
+            const svgElement = document.querySelector('svg');
+            const svgText = await svgElementInlineImages(svgElement!, fetch);
+            // end of example code
+            expect(svgText).toEqual(svgTemplate(''));
+        });
     });
 });
