@@ -28,13 +28,15 @@ const testBase64 = [
 ].join('');
 
 const dataPrefix = `data:image/png;base64, `;
-const hrefImage = `<image href="image.png"></image>`;
 const xlinkHrefImage = `<image xlink:href="image.png"></image>`;
+const hrefImage = `<image href="file://image.png"></image>`;
 
 const mocks = {
     'good.svg': svgTemplate(xlinkHrefImage + hrefImage),
     'myFile.svg': svgTemplate(xlinkHrefImage + hrefImage),
     'image.png': Buffer.from(testBase64, 'base64'),
+    'image.pong': Buffer.from(testBase64, 'base64'),
+    'badMimeType.svg': svgTemplate('<image xlink:href="image.pong"></image>'),
 };
 
 fetchMock.config.allowRelativeUrls = true;
@@ -110,6 +112,18 @@ describe('svgInlineImages', () => {
         expect(result2).toEqual(goodInlinedSvg);
     });
 
+    it(`rejects if the mime-type is not recognized`, async () => {
+        await expect(
+            svgFileInlineImages(
+                'badMimeType.svg',
+                fs.promises.readFile,
+                dom.window.document
+            )
+        ).rejects.toEqual(
+            new Error(`Failed to find a mime-type for 'image.pong'`)
+        );
+    });
+
     describe(`svgElementInlineImages`, () => {
         it(`has a working example`, async () => {
             const document = new JSDOM('<svg></svg>').window.document;
@@ -145,6 +159,20 @@ describe('svgInlineImages', () => {
             );
             // end of example code
             expect(svgText).toEqual(svgTemplate(''));
+        });
+
+        it(`rejects if there are not elements in the svgText`, async () => {
+            await expect(
+                svgTextInlineImages(
+                    '',
+                    fetchMock.fetchHandler,
+                    dom.window.document
+                )
+            ).rejects.toEqual(
+                new Error(
+                    'svgTextInlineImages called with svgText containing no elements'
+                )
+            );
         });
     });
 
