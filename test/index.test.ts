@@ -3,7 +3,7 @@ import fs from 'fs';
 import { JSDOM } from 'jsdom';
 import mockFs from 'mock-fs';
 
-import { svgFileInlineImages } from '../src';
+import { svgFileInlineImages, svgTextInlineImages } from '../src';
 
 const dom = new JSDOM();
 
@@ -47,6 +47,29 @@ describe('svgInlineImages', () => {
             dom.window.document
         );
         expect(result).toEqual(
+            svgTemplate(
+                [
+                    `<image xlink:href="${dataPrefix}${testBase64}"></image>`,
+                    `<image href="${dataPrefix}${testBase64}"></image>`,
+                ].join('')
+            )
+        );
+    });
+
+    it(`ignores images which have already been inlined`, async () => {
+        const result1 = await svgFileInlineImages(
+            'good.svg',
+            fs.promises.readFile,
+            dom.window.document
+        );
+
+        const result2 = await svgTextInlineImages(
+            result1,
+            fs.promises.readFile,
+            dom.window.document
+        );
+
+        expect(result2).toEqual(
             svgTemplate(
                 [
                     `<image xlink:href="${dataPrefix}${testBase64}"></image>`,
