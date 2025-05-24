@@ -33,12 +33,25 @@ const xlinkHrefImage = `<image xlink:href="image.png"></image>`;
 
 const mocks = {
     'good.svg': svgTemplate(xlinkHrefImage + hrefImage),
+    'myFile.svg': svgTemplate(xlinkHrefImage + hrefImage),
     'image.png': Buffer.from(testBase64, 'base64'),
 };
 
 fetchMock.config.allowRelativeUrls = true;
 fetchMock.route('/good.svg', svgTemplate(xlinkHrefImage + hrefImage));
 fetchMock.route('/image.png', Buffer.from(testBase64, 'base64'));
+
+fetchMock.route(
+    'http://example.com/myFile.svg',
+    svgTemplate(xlinkHrefImage + hrefImage)
+);
+
+const goodInlinedSvg = svgTemplate(
+    [
+        `<image xlink:href="${dataPrefix}${testBase64}"></image>`,
+        `<image href="${dataPrefix}${testBase64}"></image>`,
+    ].join('')
+);
 
 describe('svgInlineImages', () => {
     beforeAll(() => {
@@ -94,14 +107,7 @@ describe('svgInlineImages', () => {
             dom.window.document
         );
 
-        expect(result2).toEqual(
-            svgTemplate(
-                [
-                    `<image xlink:href="${dataPrefix}${testBase64}"></image>`,
-                    `<image href="${dataPrefix}${testBase64}"></image>`,
-                ].join('')
-            )
-        );
+        expect(result2).toEqual(goodInlinedSvg);
     });
 
     describe(`svgElementInlineImages`, () => {
@@ -112,6 +118,60 @@ describe('svgInlineImages', () => {
             const svgText = await svgElementInlineImages(svgElement!, fetch);
             // end of example code
             expect(svgText).toEqual(svgTemplate(''));
+        });
+    });
+
+    describe(`svgTextInlineImages`, () => {
+        it(`has a working example for fetch`, async () => {
+            const fetch = fetchMock.fetchHandler;
+            const document = dom.window.document;
+            // example code
+            const svgText = await svgTextInlineImages(
+                '<svg></svg>',
+                fetch,
+                document
+            );
+            // end of example code
+            expect(svgText).toEqual(svgTemplate(''));
+        });
+
+        it(`has a working example for fs.promises.readFile`, async () => {
+            const myJsDomDocument = dom.window.document;
+            // example code
+            const svgText = await svgTextInlineImages(
+                '<svg></svg>',
+                fs.promises.readFile,
+                myJsDomDocument
+            );
+            // end of example code
+            expect(svgText).toEqual(svgTemplate(''));
+        });
+    });
+
+    describe(`svgFileInlineImages`, () => {
+        it(`has a working example for fetch`, async () => {
+            const fetch = fetchMock.fetchHandler;
+            const document = dom.window.document;
+            // example code
+            const svgText = await svgFileInlineImages(
+                'http://example.com/myFile.svg',
+                fetch,
+                document
+            );
+            // end of example code
+            expect(svgText).toEqual(goodInlinedSvg);
+        });
+
+        it(`has a working example for fs.promises.readFile`, async () => {
+            const myJsDomDocument = dom.window.document;
+            // example code
+            const svgText = await svgFileInlineImages(
+                'myFile.svg',
+                fs.promises.readFile,
+                myJsDomDocument
+            );
+            // end of example code
+            expect(svgText).toEqual(goodInlinedSvg);
         });
     });
 });

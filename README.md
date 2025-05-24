@@ -20,7 +20,7 @@ npm install svg-inline-images
 
 > **svgElementInlineImages**(`svgElement`, `fetchLite`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:16](https://github.com/Antony74/svg-inline-images/blob/c62bd841cf1bf508b74b6d56b16814460dff54a3/src/svgInlineImages.ts#L16)
+Defined in: [svgInlineImages.ts:16](https://github.com/Antony74/svg-inline-images/blob/a1a4ecd73b4cf983b107526d01d7df46264fcc97/src/svgInlineImages.ts#L16)
 
 Inlines the images of an svg element
 
@@ -57,7 +57,7 @@ const svgText = await svgElementInlineImages(svgElement, fetch);
 
 > **svgTextInlineImages**(`svgText`, `fetchLite`, `document`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:57](https://github.com/Antony74/svg-inline-images/blob/c62bd841cf1bf508b74b6d56b16814460dff54a3/src/svgInlineImages.ts#L57)
+Defined in: [svgInlineImages.ts:57](https://github.com/Antony74/svg-inline-images/blob/a1a4ecd73b4cf983b107526d01d7df46264fcc97/src/svgInlineImages.ts#L57)
 
 Inlines the images of an svg string
 
@@ -88,11 +88,15 @@ a promise which resolves to a string containing the svg content with images inli
 #### Example
 
 ```js
-await svgTextInlineImages('<svg></svg>', fetch, document);
+const svgText = await svgTextInlineImages('<svg></svg>', fetch, document);
 ```
 
 ```js
-await svgTextInlineImages('<svg></svg>', fs.promises.readFile, myJsDomDocument);
+const svgText = await svgTextInlineImages(
+    '<svg></svg>',
+    fs.promises.readFile,
+    myJsDomDocument
+);
 ```
 
 <a name="svginlineimagesfunctionssvgfileinlineimagesmd"></a>
@@ -101,7 +105,7 @@ await svgTextInlineImages('<svg></svg>', fs.promises.readFile, myJsDomDocument);
 
 > **svgFileInlineImages**(`path`, `fetchLite`, `document`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:93](https://github.com/Antony74/svg-inline-images/blob/c62bd841cf1bf508b74b6d56b16814460dff54a3/src/svgInlineImages.ts#L93)
+Defined in: [svgInlineImages.ts:93](https://github.com/Antony74/svg-inline-images/blob/a1a4ecd73b4cf983b107526d01d7df46264fcc97/src/svgInlineImages.ts#L93)
 
 Inlines the images of an svg file
 
@@ -132,11 +136,19 @@ a promise which resolves to a string containing the svg content with images inli
 #### Example
 
 ```js
-await svgFileInlineImages('myFile.svg', fetch, document);
+const svgText = await svgFileInlineImages(
+    'http://example.com/myFile.svg',
+    fetch,
+    document
+);
 ```
 
 ```js
-await svgFileInlineImages('myFile.svg', fs.promises.readFile, myJsDomDocument);
+const svgText = await svgFileInlineImages(
+    'myFile.svg',
+    fs.promises.readFile,
+    myJsDomDocument
+);
 ```
 
 <a name="fetchlitetype-aliasesfetchlitemd"></a>
@@ -145,7 +157,7 @@ await svgFileInlineImages('myFile.svg', fs.promises.readFile, myJsDomDocument);
 
 > **FetchLite** = (`path`) => `Promise`\<[`FetchLiteResponse`](#fetchlitetype-aliasesfetchliteresponsemd)\>
 
-Defined in: [fetchLite.ts:18](https://github.com/Antony74/svg-inline-images/blob/c62bd841cf1bf508b74b6d56b16814460dff54a3/src/fetchLite.ts#L18)
+Defined in: [fetchLite.ts:18](https://github.com/Antony74/svg-inline-images/blob/a1a4ecd73b4cf983b107526d01d7df46264fcc97/src/fetchLite.ts#L18)
 
 A paired down fetch type compatible with both
 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) functions
@@ -180,4 +192,4 @@ A promise from which the fetched file can ultimately be obtained as an ArrayBuff
 
 > **FetchLiteResponse** = `Buffer`\<`ArrayBufferLike`\> \| \{ `arrayBuffer`: () => `Promise`\<`ArrayBufferLike`\>; \}
 
-Defined in: [fetchLite.ts:20](https://github.com/Antony74/svg-inline-images/blob/c62bd841cf1bf508b74b6d56b16814460dff54a3/src/fetchLite.ts#L20)
+Defined in: [fetchLite.ts:20](https://github.com/Antony74/svg-inline-images/blob/a1a4ecd73b4cf983b107526d01d7df46264fcc97/src/fetchLite.ts#L20)
