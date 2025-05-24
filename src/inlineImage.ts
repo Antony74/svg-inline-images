@@ -6,19 +6,25 @@ export const inlineImage = async (
     image: SVGImageElement,
     fetchLite: FetchLite
 ): Promise<void> => {
-    const path = image.getAttribute('xlink:href') ?? '';
+    for (const attributeName of ['xlink:href', 'href']) {
+        const path = image.getAttribute(attributeName);
 
-    const buffer = await fetchLiteFetch(path, fetchLite);
+        if (!path) {
+            continue;
+        }
 
-    const content = Buffer.from(buffer).toString('base64');
+        const buffer = await fetchLiteFetch(path, fetchLite);
 
-    const mimeType = mime.lookup(path);
+        const content = Buffer.from(buffer).toString('base64');
 
-    if (mimeType === false) {
-        throw new Error(`Failed to find a mime-type for '${path}'`);
+        const mimeType = mime.lookup(path);
+
+        if (mimeType === false) {
+            throw new Error(`Failed to find a mime-type for '${path}'`);
+        }
+
+        const newUrl = `data:${mimeType};base64, ${content}`;
+
+        image.setAttribute(attributeName, newUrl);
     }
-
-    const newUrl = `data:${mimeType};base64, ${content}`;
-
-    image.setAttribute('xlink:href', newUrl);
 };

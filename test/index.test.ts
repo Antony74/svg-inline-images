@@ -27,7 +27,7 @@ const hrefImage = `<image href="image.png"></image>`;
 const xlinkHrefImage = `<image xlink:href="image.png"></image>`;
 
 const mocks = {
-    'good.svg': svgTemplate(xlinkHrefImage),
+    'good.svg': svgTemplate(xlinkHrefImage + hrefImage),
     'image.png': Buffer.from(testBase64, 'base64'),
 };
 
@@ -48,7 +48,10 @@ describe('svgInlineImages', () => {
         );
         expect(result).toEqual(
             svgTemplate(
-                `<image xlink:href="${dataPrefix}${testBase64}"></image>`
+                [
+                    `<image xlink:href="${dataPrefix}${testBase64}"></image>`,
+                    `<image href="${dataPrefix}${testBase64}"></image>`,
+                ].join('')
             )
         );
     });
