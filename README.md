@@ -1,109 +1,121 @@
-
-<a name="headermd"></a>
-
 # svg-inline-images
 
+A Scalar Vector Graphics (SVG) document may contain images (via the `<image>` tag), which can point at external image files.  In order to make a more portable .svg file, this tool converts them to [data URLs](https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/data) so that the images are embedded inline.
 
-<a name="docssvginlineimagesfunctionssvgelementinlineimagesmd"></a>
+To do this, svg-inline-images requires the Document Object Model (DOM).  For headless (nodejs) use, this can be provided by [jsdom](https://www.npmjs.com/package/jsdom).  The DOM is unaltered, and the content of a new .svg file is returned as a string.
 
-# Function: svgElementInlineImages()
+svg-inline-images has a single production dependency upon the [mime-types](https://www.npmjs.com/package/mime-types) package.
+
+## Documentation
+
+<a name="svginlineimagesfunctionssvgelementinlineimagesmd"></a>
+
+### Function: svgElementInlineImages()
 
 > **svgElementInlineImages**(`svgElement`, `fetchLite`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:4](https://github.com/Antony74/svg-inline-images/blob/93f6bdda63eb902904faea9c55b68b01719dbdd5/src/svgInlineImages.ts#L4)
+Defined in: [svgInlineImages.ts:10](https://github.com/Antony74/svg-inline-images/blob/495c6248ab84bfb68fe88a617ec4040f5b3729fd/src/svgInlineImages.ts#L10)
 
-## Parameters
+Inlines the images of an svg element
 
-### svgElement
+#### Parameters
+
+##### svgElement
 
 `Element`
 
-### fetchLite
+an [SVGElement](https://developer.mozilla.org/en-US/docs/Web/API/SVGElement)
 
-[`FetchLite`](#docsfetchlitetype-aliasesfetchlitemd)
+##### fetchLite
 
-## Returns
+[`FetchLite`](#fetchlitetype-aliasesfetchlitemd)
+
+a fetch or fs.promises.readfile function, used to retrieve the image
+
+#### Returns
 
 `Promise`\<`string`\>
 
+a promise which resolves to a string containing the svg content with images inlined.
 
-<a name="docssvginlineimagesfunctionssvgtextinlineimagesmd"></a>
 
-# Function: svgTextInlineImages()
+<a name="svginlineimagesfunctionssvgtextinlineimagesmd"></a>
+
+### Function: svgTextInlineImages()
 
 > **svgTextInlineImages**(`svgText`, `fetchLite`, `document`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:28](https://github.com/Antony74/svg-inline-images/blob/93f6bdda63eb902904faea9c55b68b01719dbdd5/src/svgInlineImages.ts#L28)
+Defined in: [svgInlineImages.ts:34](https://github.com/Antony74/svg-inline-images/blob/495c6248ab84bfb68fe88a617ec4040f5b3729fd/src/svgInlineImages.ts#L34)
 
-## Parameters
+#### Parameters
 
-### svgText
+##### svgText
 
 `string`
 
-### fetchLite
+##### fetchLite
 
-[`FetchLite`](#docsfetchlitetype-aliasesfetchlitemd)
+[`FetchLite`](#fetchlitetype-aliasesfetchlitemd)
 
-### document
+##### document
 
 `Document`
 
-## Returns
+#### Returns
 
 `Promise`\<`string`\>
 
 
-<a name="docssvginlineimagesfunctionssvgfileinlineimagesmd"></a>
+<a name="svginlineimagesfunctionssvgfileinlineimagesmd"></a>
 
-# Function: svgFileInlineImages()
+### Function: svgFileInlineImages()
 
 > **svgFileInlineImages**(`path`, `fetchLite`, `document`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:47](https://github.com/Antony74/svg-inline-images/blob/93f6bdda63eb902904faea9c55b68b01719dbdd5/src/svgInlineImages.ts#L47)
+Defined in: [svgInlineImages.ts:53](https://github.com/Antony74/svg-inline-images/blob/495c6248ab84bfb68fe88a617ec4040f5b3729fd/src/svgInlineImages.ts#L53)
 
-## Parameters
+#### Parameters
 
-### path
+##### path
 
 `string`
 
-### fetchLite
+##### fetchLite
 
-[`FetchLite`](#docsfetchlitetype-aliasesfetchlitemd)
+[`FetchLite`](#fetchlitetype-aliasesfetchlitemd)
 
-### document
+##### document
 
 `Document`
 
-## Returns
+#### Returns
 
 `Promise`\<`string`\>
 
 
-<a name="docsfetchlitetype-aliasesfetchliteresponsemd"></a>
+<a name="fetchlitetype-aliasesfetchliteresponsemd"></a>
 
-# Type Alias: FetchLiteResponse
+### Type Alias: FetchLiteResponse
 
 > **FetchLiteResponse** = `ArrayBufferLike` \| \{ `arrayBuffer`: () => `Promise`\<`ArrayBufferLike`\>; \}
 
-Defined in: [fetchLite.ts:1](https://github.com/Antony74/svg-inline-images/blob/93f6bdda63eb902904faea9c55b68b01719dbdd5/src/fetchLite.ts#L1)
+Defined in: [fetchLite.ts:1](https://github.com/Antony74/svg-inline-images/blob/495c6248ab84bfb68fe88a617ec4040f5b3729fd/src/fetchLite.ts#L1)
 
 
-<a name="docsfetchlitetype-aliasesfetchlitemd"></a>
+<a name="fetchlitetype-aliasesfetchlitemd"></a>
 
-# Type Alias: FetchLite()
+### Type Alias: FetchLite()
 
-> **FetchLite** = (`path`) => `Promise`\<[`FetchLiteResponse`](#docsfetchlitetype-aliasesfetchliteresponsemd)\>
+> **FetchLite** = (`path`) => `Promise`\<[`FetchLiteResponse`](#fetchlitetype-aliasesfetchliteresponsemd)\>
 
-Defined in: [fetchLite.ts:5](https://github.com/Antony74/svg-inline-images/blob/93f6bdda63eb902904faea9c55b68b01719dbdd5/src/fetchLite.ts#L5)
+Defined in: [fetchLite.ts:5](https://github.com/Antony74/svg-inline-images/blob/495c6248ab84bfb68fe88a617ec4040f5b3729fd/src/fetchLite.ts#L5)
 
-## Parameters
+#### Parameters
 
-### path
+##### path
 
 `string`
 
-## Returns
+#### Returns
 
-`Promise`\<[`FetchLiteResponse`](#docsfetchlitetype-aliasesfetchliteresponsemd)\>
+`Promise`\<[`FetchLiteResponse`](#fetchlitetype-aliasesfetchliteresponsemd)\>

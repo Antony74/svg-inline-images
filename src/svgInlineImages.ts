@@ -1,6 +1,12 @@
 import { FetchLite, fetchLiteFetch } from './fetchLite';
 import { inlineImage } from './inlineImage';
 
+/***
+ * Inlines the images of an svg element
+ * @param svgElement an [SVGElement](https://developer.mozilla.org/en-US/docs/Web/API/SVGElement)
+ * @param fetchLite a fetch or fs.promises.readfile function, used to retrieve the image
+ * @returns a promise which resolves to a string containing the svg content with images inlined.
+ */
 export const svgElementInlineImages = async (
     svgElement: Element,
     fetchLite: FetchLite

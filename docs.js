@@ -7,7 +7,6 @@ const fsp = require('fs/promises');
 const concatMd = require('concat-md').default;
 
 const order = [
-    'header',
     'svgElementInlineImages',
     'svgTextInlineImages',
     'svgFileInlineImages',
@@ -39,15 +38,10 @@ const removeHeader = async (itemPath) => {
 const main = async () => {
     await removeHeader(path.join(__dirname, 'docs'));
 
-    const readme = await concatMd(path.join(__dirname, '.'), {
+    const documentation = await concatMd(path.join(__dirname, 'docs'), {
         decreaseTitleLevels: true,
-        ignore: [
-            'node_modules',
-            'README.md',
-            '**/README.md',
-            '**/fetchLiteFetch.md',
-            '**/inlineImage.md',
-        ],
+        startTitleLevelAt: 3,
+        ignore: ['**/README.md', '**/fetchLiteFetch.md', '**/inlineImage.md'],
         sorter: (a, b) => {
             const aName = path.parse(a).name;
             const bName = path.parse(b).name;
@@ -57,7 +51,13 @@ const main = async () => {
         },
     });
 
-    await fsp.writeFile(path.join(__dirname, 'README.md'), readme);
+    // Append header file manually so its title levels do not decrease
+    const header = await fsp.readFile(path.join(__dirname, 'header.md'));
+
+    await fsp.writeFile(
+        path.join(__dirname, 'README.md'),
+        header + documentation
+    );
 };
 
 main();
