@@ -15,8 +15,20 @@ const svgTemplate = (content: string) => {
     ].join('\n');
 };
 
+// This is the base64 encoded for a .png file, 10x10pixels, of a green circle on a red background
+const testBase64 = [
+    'iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAAUElEQVR4X',
+    'mP4z8AAQZd0GWakgxCQARcE4Y98DNFLYAJgBOQCBaHSMYtR5CAIKAiSvqiHLgFHIKlZqeiicASSIiBNwPD/+J',
+    '32n6DHIAhrsAAAeg5jnSsMZjQAAAAASUVORK5CYII=',
+].join('');
+
+const dataPrefix = `data:image/png;base64, `;
+const hrefImage = `<image href="image.png"></image>`;
+const xlinkHrefImage = `<image xlink:href="image.png"></image>`;
+
 const mocks = {
-    'good.svg': svgTemplate(''),
+    'good.svg': svgTemplate(xlinkHrefImage),
+    'image.png': Buffer.from(testBase64, 'base64'),
 };
 
 describe('svgInlineImages', () => {
@@ -26,7 +38,7 @@ describe('svgInlineImages', () => {
 
     afterAll(() => {
         mockFs.restore();
-    })
+    });
 
     it(`can inline images with fs.promises.readFile`, async () => {
         const result = await svgFileInlineImages(
@@ -34,6 +46,10 @@ describe('svgInlineImages', () => {
             fs.promises.readFile,
             dom.window.document
         );
-        expect(result).toEqual(mocks['good.svg']);
+        expect(result).toEqual(
+            svgTemplate(
+                `<image xlink:href="${dataPrefix}${testBase64}"></image>`
+            )
+        );
     });
 });
