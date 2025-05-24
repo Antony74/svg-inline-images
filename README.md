@@ -20,7 +20,7 @@ npm install svg-inline-images
 
 > **svgElementInlineImages**(`svgElement`, `fetchLite`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:16](https://github.com/Antony74/svg-inline-images/blob/70dd5223a1bc334171ec4e8137422fd4a2572c70/src/svgInlineImages.ts#L16)
+Defined in: [svgInlineImages.ts:16](https://github.com/Antony74/svg-inline-images/blob/0a5568088cc338a21fc47f80cb2557f9bd84865f/src/svgInlineImages.ts#L16)
 
 Inlines the images of an svg element
 
@@ -36,7 +36,7 @@ an [SVGElement](https://developer.mozilla.org/en-US/docs/Web/API/SVGElement)
 
 [`FetchLite`](#fetchlitetype-aliasesfetchlitemd)
 
-a fetch or fs.promises.readfile function, used to retrieve the image
+a fetch or fs.promises.readFile function, used to retrieve the image
 
 #### Returns
 
@@ -58,7 +58,7 @@ const svgText = await svgElementInlineImages(svgElement, fetch);
 
 > **svgTextInlineImages**(`svgText`, `fetchLite`, `document`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:57](https://github.com/Antony74/svg-inline-images/blob/70dd5223a1bc334171ec4e8137422fd4a2572c70/src/svgInlineImages.ts#L57)
+Defined in: [svgInlineImages.ts:57](https://github.com/Antony74/svg-inline-images/blob/0a5568088cc338a21fc47f80cb2557f9bd84865f/src/svgInlineImages.ts#L57)
 
 Inlines the images of an svg string
 
@@ -74,7 +74,7 @@ the text of a .svg file, or the outerHTML of an svg element
 
 [`FetchLite`](#fetchlitetype-aliasesfetchlitemd)
 
-a fetch or fs.promises.readfile function, used to retrieve the image
+a fetch or fs.promises.readFile function, used to retrieve the image
 
 ##### document
 
@@ -93,7 +93,7 @@ svgTextInlineImages('<svg></svg>', fetch, document);
 ```
 
 ```js
-svgTextInlineImages('<svg></svg>', fs.promises.readfile, myJsDomDocument);
+svgTextInlineImages('<svg></svg>', fs.promises.readFile, myJsDomDocument);
 ```
 
 
@@ -103,7 +103,7 @@ svgTextInlineImages('<svg></svg>', fs.promises.readfile, myJsDomDocument);
 
 > **svgFileInlineImages**(`path`, `fetchLite`, `document`): `Promise`\<`string`\>
 
-Defined in: [svgInlineImages.ts:93](https://github.com/Antony74/svg-inline-images/blob/70dd5223a1bc334171ec4e8137422fd4a2572c70/src/svgInlineImages.ts#L93)
+Defined in: [svgInlineImages.ts:93](https://github.com/Antony74/svg-inline-images/blob/0a5568088cc338a21fc47f80cb2557f9bd84865f/src/svgInlineImages.ts#L93)
 
 Inlines the images of an svg file
 
@@ -119,7 +119,7 @@ the url or path to the svg file
 
 [`FetchLite`](#fetchlitetype-aliasesfetchlitemd)
 
-a fetch or fs.promises.readfile function, used to retrieve the svg and image files
+a fetch or fs.promises.readFile function, used to retrieve the svg and image files
 
 ##### document
 
@@ -138,7 +138,7 @@ svgFileInlineImages('myFile.svg', fetch, document);
 ```
 
 ```js
-svgFileInlineImages('myFile.svg', fs.promises.readfile, myJsDomDocument);
+svgFileInlineImages('myFile.svg', fs.promises.readFile, myJsDomDocument);
 ```
 
 
@@ -148,15 +148,15 @@ svgFileInlineImages('myFile.svg', fs.promises.readfile, myJsDomDocument);
 
 > **FetchLite** = (`path`) => `Promise`\<[`FetchLiteResponse`](#fetchlitetype-aliasesfetchliteresponsemd)\>
 
-Defined in: [fetchLite.ts:18](https://github.com/Antony74/svg-inline-images/blob/70dd5223a1bc334171ec4e8137422fd4a2572c70/src/fetchLite.ts#L18)
+Defined in: [fetchLite.ts:18](https://github.com/Antony74/svg-inline-images/blob/0a5568088cc338a21fc47f80cb2557f9bd84865f/src/fetchLite.ts#L18)
 
 A paired down fetch type compatible with both
 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) functions
-and [fs.promises.readsync](https://nodejs.org/api/fs.html#fspromisesreadfilepath-options)
+and [fs.promises.readFile](https://nodejs.org/api/fs.html#fspromisesreadfilepath-options)
 
 In browser you would typically literally pass `fetch` as a parameter, in order to use your browser's fetch function.
 However, because usually fetch does not support `file://` urls, it may be desirable when working headlessly in nodejs
-to pass `fs.promises.readsync` instead.  Alternatively, in a nodejs application, it might make sense to use
+to pass `fs.promises.readFile` instead.  Alternatively, in a nodejs application, it might make sense to use
 [node-fetch](https://www.npmjs.com/package/node-fetch) or nodejs's native fetch implementation.
 Finally, you could of course provide another/your own implementation of FetchLite.
 
@@ -182,6 +182,6 @@ A promise from which the fetched file can ultimately be obtained as an ArrayBuff
 
 ### Type Alias: FetchLiteResponse
 
-> **FetchLiteResponse** = `ArrayBufferLike` \| \{ `arrayBuffer`: () => `Promise`\<`ArrayBufferLike`\>; \}
+> **FetchLiteResponse** = `Buffer`\<`ArrayBufferLike`\> \| \{ `arrayBuffer`: () => `Promise`\<`ArrayBufferLike`\>; \}
 
-Defined in: [fetchLite.ts:20](https://github.com/Antony74/svg-inline-images/blob/70dd5223a1bc334171ec4e8137422fd4a2572c70/src/fetchLite.ts#L20)
+Defined in: [fetchLite.ts:20](https://github.com/Antony74/svg-inline-images/blob/0a5568088cc338a21fc47f80cb2557f9bd84865f/src/fetchLite.ts#L20)

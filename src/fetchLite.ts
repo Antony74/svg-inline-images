@@ -1,11 +1,11 @@
 /***
  * A paired down fetch type compatible with both
  * [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) functions
- * and [fs.promises.readsync](https://nodejs.org/api/fs.html#fspromisesreadfilepath-options)
+ * and [fs.promises.readFile](https://nodejs.org/api/fs.html#fspromisesreadfilepath-options)
  * 
  * In browser you would typically literally pass `fetch` as a parameter, in order to use your browser's fetch function.
  * However, because usually fetch does not support `file://` urls, it may be desirable when working headlessly in nodejs
- * to pass `fs.promises.readsync` instead.  Alternatively, in a nodejs application, it might make sense to use
+ * to pass `fs.promises.readFile` instead.  Alternatively, in a nodejs application, it might make sense to use
  * [node-fetch](https://www.npmjs.com/package/node-fetch) or nodejs's native fetch implementation.
  * Finally, you could of course provide another/your own implementation of FetchLite.
  * 
@@ -18,7 +18,7 @@
 export type FetchLite = (path: string) => Promise<FetchLiteResponse>;
 
 export type FetchLiteResponse =
-    | ArrayBufferLike
+    | Buffer<ArrayBufferLike>
     | { arrayBuffer: () => Promise<ArrayBufferLike> };
 
 const hasArrayBufferMethod = (
@@ -44,6 +44,6 @@ export const fetchLiteFetch = async (
     if (hasArrayBufferMethod(response)) {
         return response.arrayBuffer();
     } else {
-        return response;
+        return response.buffer;
     }
 };
