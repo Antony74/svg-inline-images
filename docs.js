@@ -10,8 +10,8 @@ const order = [
     'svgElementInlineImages',
     'svgTextInlineImages',
     'svgFileInlineImages',
-    'FetchLiteResponse',
     'FetchLite',
+    'FetchLiteResponse',
 ];
 
 const removeHeader = async (itemPath) => {

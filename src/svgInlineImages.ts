@@ -6,6 +6,12 @@ import { inlineImage } from './inlineImage';
  * @param svgElement an [SVGElement](https://developer.mozilla.org/en-US/docs/Web/API/SVGElement)
  * @param fetchLite a fetch or fs.promises.readfile function, used to retrieve the image
  * @returns a promise which resolves to a string containing the svg content with images inlined.
+ * @example
+ *
+ * ```js
+ * const svgElement = document.querySelector('svg');
+ * const svgText = await svgElementInlineImages(svgElement, fetch);
+ * ```
  */
 export const svgElementInlineImages = async (
     svgElement: Element,
@@ -31,6 +37,23 @@ export const svgElementInlineImages = async (
     return xml;
 };
 
+/***
+ * Inlines the images of an svg string
+ * @param svgText the text of a .svg file, or the outerHTML of an svg element
+ * @param fetchLite a fetch or fs.promises.readfile function, used to retrieve the image
+ * @param document
+ * @returns a promise which resolves to a string containing the svg content with images inlined.
+ * @example
+ *
+ * ```js
+ * svgTextInlineImages('<svg></svg>', fetch, document);
+ * ```
+ *
+ * ```js
+ * svgTextInlineImages('<svg></svg>', fs.promises.readfile, myJsDomDocument);
+ * ```
+ *
+ */
 export const svgTextInlineImages = async (
     svgText: string,
     fetchLite: FetchLite,
@@ -50,6 +73,23 @@ export const svgTextInlineImages = async (
     return svgElementInlineImages(firstElementChild, fetchLite);
 };
 
+/***
+ * Inlines the images of an svg file
+ * @param path the url or path to the svg file
+ * @param fetchLite a fetch or fs.promises.readfile function, used to retrieve the svg and image files
+ * @param document
+ * @returns a promise which resolves to a string containing the svg content with images inlined.
+ * @example
+ *
+ * ```js
+ * svgFileInlineImages('myFile.svg', fetch, document);
+ * ```
+ *
+ * ```js
+ * svgFileInlineImages('myFile.svg', fs.promises.readfile, myJsDomDocument);
+ * ```
+ *
+ */
 export const svgFileInlineImages = async (
     path: string,
     fetchLite: FetchLite,

@@ -6,4 +6,10 @@ To do this, svg-inline-images requires the Document Object Model (DOM).  For hea
 
 svg-inline-images has a single production dependency upon the [mime-types](https://www.npmjs.com/package/mime-types) package.
 
+## Installation
+
+```
+npm install svg-inline-images
+```
+
 ## Documentation
