@@ -16,15 +16,12 @@ const hasArrayBufferMethod = (response) => {
             'function');
 };
 const fetchLiteFetch = (path, fetchLite) => __awaiter(void 0, void 0, void 0, function* () {
-    if (path.startsWith('file://')) {
-        path = path.slice(7);
-    }
     const response = yield fetchLite(path);
     if (hasArrayBufferMethod(response)) {
         return response.arrayBuffer();
     }
     else {
-        return response;
+        return response.buffer;
     }
 });
 exports.fetchLiteFetch = fetchLiteFetch;

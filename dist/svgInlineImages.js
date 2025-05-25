@@ -12,6 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.svgFileInlineImages = exports.svgTextInlineImages = exports.svgElementInlineImages = void 0;
 const fetchLite_1 = require("./fetchLite");
 const inlineImage_1 = require("./inlineImage");
+/***
+ * Inlines the images of an svg element
+ * @param svgElement an [SVGElement](https://developer.mozilla.org/en-US/docs/Web/API/SVGElement)
+ * @param fetchLite a fetch or fs.promises.readFile function, used to retrieve the image
+ * @returns a promise which resolves to a string containing the svg content with images inlined.
+ * @example
+ *
+ * ```js
+ * const svgElement = document.querySelector('svg');
+ * const svgText = await svgElementInlineImages(svgElement, fetch);
+ * ```
+ */
 const svgElementInlineImages = (svgElement, fetchLite) => __awaiter(void 0, void 0, void 0, function* () {
     const clone = svgElement.cloneNode(true); // https://github.com/microsoft/TypeScript/issues/283
     const images = Array.from(clone.querySelectorAll('image'));
@@ -28,6 +40,23 @@ const svgElementInlineImages = (svgElement, fetchLite) => __awaiter(void 0, void
     return xml;
 });
 exports.svgElementInlineImages = svgElementInlineImages;
+/***
+ * Inlines the images of an svg string
+ * @param svgText the text of a .svg file, or the outerHTML of an svg element
+ * @param fetchLite a fetch or fs.promises.readFile function, used to retrieve the image
+ * @param document
+ * @returns a promise which resolves to a string containing the svg content with images inlined.
+ * @example
+ *
+ * ```js
+ * const svgText = await svgTextInlineImages('<svg></svg>', fetch, document);
+ * ```
+ *
+ * ```js
+ * const svgText = await svgTextInlineImages('<svg></svg>', fs.promises.readFile, myJsDomDocument);
+ * ```
+ *
+ */
 const svgTextInlineImages = (svgText, fetchLite, document) => __awaiter(void 0, void 0, void 0, function* () {
     const div = document.createElement('div');
     div.innerHTML = svgText;
@@ -38,6 +67,23 @@ const svgTextInlineImages = (svgText, fetchLite, document) => __awaiter(void 0, 
     return (0, exports.svgElementInlineImages)(firstElementChild, fetchLite);
 });
 exports.svgTextInlineImages = svgTextInlineImages;
+/***
+ * Inlines the images of an svg file
+ * @param path the url or path to the svg file
+ * @param fetchLite a fetch or fs.promises.readFile function, used to retrieve the svg and image files
+ * @param document
+ * @returns a promise which resolves to a string containing the svg content with images inlined.
+ * @example
+ *
+ * ```js
+ * const svgText = await svgFileInlineImages('http://example.com/myFile.svg', fetch, document);
+ * ```
+ *
+ * ```js
+ * const svgText = await svgFileInlineImages('myFile.svg', fs.promises.readFile, myJsDomDocument);
+ * ```
+ *
+ */
 const svgFileInlineImages = (path, fetchLite, document) => __awaiter(void 0, void 0, void 0, function* () {
     const buffer = yield (0, fetchLite_1.fetchLiteFetch)(path, fetchLite);
     return (0, exports.svgTextInlineImages)(Buffer.from(buffer).toString('utf-8'), fetchLite, document);
